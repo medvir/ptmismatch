@@ -6,9 +6,9 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of ptmismatch is to find and summarize primer binding sites
-within a given set of sequences to estimate priming efficiency during a
-polymerase chain reaction (PCR).
+The goal of ptmismatch (primer-template mismatch) is to find and
+summarize primer binding sites within a given set of sequences to
+estimate priming efficiency during a polymerase chain reaction (PCR).
 
 ## Installation
 
