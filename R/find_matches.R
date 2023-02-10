@@ -1,3 +1,36 @@
+#' Find primer-template matches
+#'
+#' @param pattern A string consisting of the pattern (primer sequence) to look for.
+#'    IUPAC ambiguity codes are supported (e.g. "R" matches "A" and "G"). "I" are
+#'    not supported, replace them with "N" instead.
+#' @param subject A DNAStringSet (Biostrings class) containing one or multiple
+#'    DNA sequences in which the pattern is searched.
+#' @param subject_index An integer of the DNAString index within the DNAStringSet.
+#' @param max.mismatch The maximum number of mismatching letters
+#'    (maximum edit distance) allowed as integer.
+#' @param with.indels A boolean, if TRUE then indels are allowed.
+#'
+#' @return A tibble containing the information of the primer-template matches found.
+#' @export
+#'
+#' @examples
+#'
+#' # prepare pattern and subject
+#' EV_fwd <- "GCTGCGYTGGCGGCC"
+#'
+#' EV_sequences_fasta <- system.file("extdata", "Enterovirus_12059.fasta", package="ptmismatch")
+#'
+#' EV_sequences <- Biostrings::readDNAStringSet(EV_sequences_fasta)
+#'
+#' # search either just one specific sequence...
+#' find_matches(pattern = EV_fwd, subject = EV_sequences, subject_index = 1,
+#'              max.mismatch = 1, with.indels = TRUE)
+#'
+#' # ...or all sequences within a fasta file
+#' purrr::map_dfr(1:length(EV_sequences),
+#'                function(x) find_matches(pattern = EV_fwd, subject = EV_sequences, subject_index = x,
+#'                                         max.mismatch = 1, with.indels = TRUE))
+#'
 find_matches <- function(pattern, subject, subject_index,
                          max.mismatch, with.indels = TRUE) {
 
