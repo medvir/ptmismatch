@@ -1,0 +1,81 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# ptmismatch
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of ptmismatch is to find and summarize primer binding sites within
+a given set of sequences to estimate priming efficiency during a
+polymerase chain reaction (PCR).
+
+## Installation
+
+You can install the development version of ptmismatch from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("medvir/ptmismatch")
+```
+
+## Example
+
+For now, ptmismatch only contains one function. `find_matches()` can be used to
+find primer-template matches. Load the package and open the documentation as follows:
+
+```{r example-help}
+
+library(ptmismatch)
+
+?find_matches()
+
+```
+
+A primer (or pattern) and template (or subject) sequence is required. The primer sequence can 
+be provided as string. [IUPAC ambiguity codes](https://www.bioinformatics.org/sms/iupac.html) 
+are supported (e.g. "R" matches "A" and "G"). "I" are not supported, replace them with "N" instead.  
+
+The template sequence(s) can be read from a fasta file using the `Biostrings::readDNAStringSet()` 
+function.
+
+```{r example-pattern-subject}
+
+EV_fwd <- "GCTGCGYTGGCGGCC"
+
+EV_sequences_fasta <- system.file("extdata", "Enterovirus_12059.fasta", package="ptmismatch")
+
+EV_sequences <- Biostrings::readDNAStringSet(EV_sequences_fasta)
+
+```
+
+Search either just one specific sequence...
+
+```{r example-single}
+
+find_matches(pattern = EV_fwd, subject = EV_sequences, subject_index = 1,
+             max.mismatch = 1, with.indels = TRUE)
+
+```
+
+...or all sequences within a fasta file.
+
+```{r example-multiple}
+
+purrr::map_dfr(1:length(EV_sequences),
+               function(x) find_matches(pattern = EV_fwd, subject = EV_sequences, subject_index = x,
+                                        max.mismatch = 1, with.indels = TRUE))
+
+```
