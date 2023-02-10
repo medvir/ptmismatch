@@ -1,6 +1,6 @@
 Package: ptmismatch
 Title: Examination of Primer-Template Mismatches
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: 
     person("Stefan", "Schmutz", , "stefan.schmutz@outlook.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-1955-7007"))
