@@ -52,30 +52,30 @@ The template sequence(s) can be read from a fasta file using the `Biostrings::re
 function.
 
 ```{r example-pattern-subject}
-
 EV_fwd <- "GCTGCGYTGGCGGCC"
 
 EV_sequences_fasta <- system.file("extdata", "Enterovirus_12059.fasta", package="ptmismatch")
 
 EV_sequences <- Biostrings::readDNAStringSet(EV_sequences_fasta)
-
 ```
 
 Search either just one specific sequence...
 
 ```{r example-single}
-
 find_matches(pattern = EV_fwd, subject = EV_sequences, subject_index = 1,
              max.mismatch = 1, with.indels = TRUE)
-
 ```
 
 ...or all sequences within a fasta file.
 
-```{r example-multiple}
+```{r example-multiple, message=FALSE, warning=FALSE}
+# loading msa is required as discussed here:
+# https://support.bioconductor.org/p/133439/
+library(msa)
 
 purrr::map_dfr(1:length(EV_sequences),
                function(x) find_matches(pattern = EV_fwd, subject = EV_sequences, subject_index = x,
-                                        max.mismatch = 1, with.indels = TRUE))
-
+                                        max.mismatch = 1, with.indels = TRUE)) %>%
+  # followed by a multiple sequence alignment on the matches
+  dplyr::mutate(matched_aligned = msa::msaConvert(msa::msa(matched, method = "ClustalOmega", type = "dna", order = "input"))$seq)
 ```
