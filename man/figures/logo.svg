@@ -43,12 +43,12 @@
      id="namedview999"
      showgrid="false"
      inkscape:zoom="1"
-     inkscape:cx="373.5"
-     inkscape:cy="538.5"
+     inkscape:cx="374.5"
+     inkscape:cy="539.5"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:window-maximized="0"
-     inkscape:current-layer="svg997"
+     inkscape:current-layer="title"
      inkscape:showpageshadow="2"
      inkscape:pagecheckerboard="true"
      inkscape:deskcolor="#d1d1d1"
@@ -264,7 +264,7 @@
   </defs>
   <path
      sodipodi:type="star"
-     style="opacity:1;fill:#f7f7f7;fill-opacity:1;stroke:#555555;stroke-width:2.86365;stroke-linecap:square;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+     style="opacity:1;fill:#e9e9e9;fill-opacity:1;stroke:#555555;stroke-width:2.86365;stroke-linecap:square;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
      id="hexagon"
      inkscape:flatsided="true"
      sodipodi:sides="6"
@@ -353,9 +353,9 @@
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:70px;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.75"
          x="159.94263"
          y="569.73773"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:70px;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#519872;fill-opacity:1"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:70px;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#5ca880;fill-opacity:1"
            id="tspan6051">p</tspan><tspan
-           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:70px;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#8b575c;fill-opacity:1"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:70px;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a46e73;fill-opacity:1"
            id="tspan5323">t</tspan></tspan></text>
   </g>
 </svg>
