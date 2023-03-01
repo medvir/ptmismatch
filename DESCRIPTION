@@ -15,7 +15,9 @@ Imports:
     Biostrings,
     dplyr,
     magrittr,
+    msa,
+    purrr,
     stringr,
     tibble
 Suggests: 
-    purrr
+    ggseqlogo

@@ -2,4 +2,5 @@
 
 export("%>%")
 export(find_matches)
+export(summarize_matches)
 importFrom(magrittr,"%>%")
