@@ -41,8 +41,14 @@ find_matches(pattern = EV_fwd, subject = EV_sequences, subject_index = 1,
              max.mismatch = 1, with.indels = TRUE)
 
 # ...or all sequences within a fasta file
-purrr::map_dfr(1:length(EV_sequences),
-               function(x) find_matches(pattern = EV_fwd, subject = EV_sequences, subject_index = x,
-                                        max.mismatch = 1, with.indels = TRUE))
+
+future::plan("future::multisession")
+furrr::future_map_dfr(1:length(EV_sequences),
+                      function(x) find_matches(pattern = EV_fwd,
+                                               subject = EV_sequences,
+                                               subject_index = x,
+                                               max.mismatch = 1,
+                                               with.indels = TRUE))
+future::plan("future::sequential")
 
 }

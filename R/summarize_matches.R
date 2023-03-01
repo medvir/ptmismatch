@@ -33,14 +33,18 @@ summarize_matches <- function(pattern, subject_filepath, subject_format,
 
   subject <- Biostrings::readDNAStringSet(subject_filepath, format = subject_format)
 
+  future::plan("future::multisession")
+
   matches_summary <-
-    purrr::map_dfr(1:length(subject),
-                   function(x) find_matches(pattern, subject, subject_index = x,
-                                            max.mismatch, with.indels)) %>%
+    furrr::future_map_dfr(1:length(subject),
+                          function(x) find_matches(pattern, subject, subject_index = x,
+                                                   max.mismatch, with.indels)) %>%
     # perform multiple sequence alignment on the matches
     dplyr::mutate(matched_aligned =
                     msa::msaConvert(msa::msa(matched, method = "ClustalOmega",
                                              type = "dna", order = "input"))$seq)
+
+  future::plan("future::sequential")
 
   return(matches_summary)
 }

@@ -14,9 +14,10 @@ biocViews:
 Imports: 
     Biostrings,
     dplyr,
+    furrr,
+    future,
     magrittr,
     msa,
-    purrr,
     stringr,
     tibble
 Suggests: 
