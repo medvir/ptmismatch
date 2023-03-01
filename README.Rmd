@@ -33,49 +33,46 @@ devtools::install_github("medvir/ptmismatch")
 
 ## Example
 
-For now, ptmismatch only contains one function. `find_matches()` can be used to
-find primer-template matches. Load the package and open the documentation as follows:
+To find and list all primer-template matches, ptmismatch contains the function
+`summarize_matches()`.
+Load the package and open the documentation as follows:
 
 ```{r example-help}
-
 library(ptmismatch)
 
-?find_matches()
-
+?summarize_matches()
 ```
 
 A primer (or pattern) and template (or subject) sequence is required. The primer sequence can 
 be provided as string. [IUPAC ambiguity codes](https://www.bioinformatics.org/sms/iupac.html) 
 are supported (e.g. "R" matches "A" and "G"). "I" are not supported, replace them with "N" instead.  
 
-The template sequence(s) can be read from a fasta file using the `Biostrings::readDNAStringSet()` 
-function.
+The template sequence(s) can be provided in form of a fasta or fastq file.
 
 ```{r example-pattern-subject}
 EV_fwd <- "GCTGCGYTGGCGGCC"
 
-EV_sequences_fasta <- system.file("extdata", "Enterovirus_12059.fasta", package="ptmismatch")
-
-EV_sequences <- Biostrings::readDNAStringSet(EV_sequences_fasta)
+EV_sequences_fasta <- system.file("extdata", "Enterovirus_12059.fasta",
+                                  package = "ptmismatch")
 ```
 
-Search either just one specific sequence...
+Search for the pattern:
 
-```{r example-single}
-find_matches(pattern = EV_fwd, subject = EV_sequences, subject_index = 1,
-             max.mismatch = 1, with.indels = TRUE)
+```{r example-summary, message=FALSE, warning=FALSE}
+matches_summary <-
+  summarize_matches(pattern = EV_fwd, subject_filepath = EV_sequences_fasta,
+                    subject_format = "fasta", max.mismatch = 1, with.indels = TRUE)
+
+matches_summary
 ```
 
-...or all sequences within a fasta file.
+The matches found can then be visualised for example as a sequence logo plog
+using the ggseqlogo package:
 
-```{r example-multiple, message=FALSE, warning=FALSE}
-# loading msa is required as discussed here:
-# https://support.bioconductor.org/p/133439/
-library(msa)
-
-purrr::map_dfr(1:length(EV_sequences),
-               function(x) find_matches(pattern = EV_fwd, subject = EV_sequences, subject_index = x,
-                                        max.mismatch = 1, with.indels = TRUE)) %>%
-  # followed by a multiple sequence alignment on the matches
-  dplyr::mutate(matched_aligned = msa::msaConvert(msa::msa(matched, method = "ClustalOmega", type = "dna", order = "input"))$seq)
+```{r example-summary-logoplot, warning=FALSE, fig.asp=0.3, out.width="80%"}
+ggseqlogo::ggseqlogo(matches_summary$matched_aligned, method = "bits",
+                     seq_type = "dna")
 ```
+
+In this example it nicely shows that the `Y` at position 7 of the primer is 
+justified by the occurrence of `T` and `C` at that position.
