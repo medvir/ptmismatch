@@ -38,13 +38,32 @@ summarize_matches <- function(pattern, subject_filepath, subject_format,
   matches_summary <-
     furrr::future_map_dfr(1:length(subject),
                           function(x) find_matches(pattern, subject, subject_index = x,
-                                                   max.mismatch, with.indels)) %>%
-    # perform multiple sequence alignment on the matches
-    dplyr::mutate(matched_aligned =
-                    msa::msaConvert(msa::msa(matched, method = "ClustalOmega",
-                                             type = "dna", order = "input"))$seq)
+                                                   max.mismatch, with.indels))
 
   future::plan("future::sequential")
+
+  if (nrow(matches_summary) < 2) {
+
+    matches_summary <-
+      matches_summary %>%
+      dplyr::mutate(matched_aligned = matched)
+
+  } else if (!with.indels) {
+
+    matches_summary <-
+      matches_summary %>%
+      dplyr::mutate(matched_aligned = matched)
+
+  } else if (with.indels) {
+
+    matches_summary <-
+      matches_summary %>%
+      # perform multiple sequence alignment on the matches
+      dplyr::mutate(matched_aligned =
+                      msa::msaConvert(msa::msa(matched, method = "ClustalOmega",
+                                               type = "dna", order = "input"))$seq)
+
+  }
 
   return(matches_summary)
 }
