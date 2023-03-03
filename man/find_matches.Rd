@@ -38,7 +38,7 @@ EV_sequences <- Biostrings::readDNAStringSet(EV_sequences_fasta)
 
 # search either just one specific sequence...
 find_matches(pattern = EV_fwd, subject = EV_sequences, subject_index = 1,
-             max.mismatch = 1, with.indels = TRUE)
+             max.mismatch = 1, with.indels = FALSE)
 
 # ...or all sequences within a fasta file
 
@@ -48,7 +48,7 @@ furrr::future_map_dfr(1:length(EV_sequences),
                                                subject = EV_sequences,
                                                subject_index = x,
                                                max.mismatch = 1,
-                                               with.indels = TRUE))
+                                               with.indels = FALSE))
 future::plan("future::sequential")
 
 }

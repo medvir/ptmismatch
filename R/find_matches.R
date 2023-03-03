@@ -24,7 +24,7 @@
 #'
 #' # search either just one specific sequence...
 #' find_matches(pattern = EV_fwd, subject = EV_sequences, subject_index = 1,
-#'              max.mismatch = 1, with.indels = TRUE)
+#'              max.mismatch = 1, with.indels = FALSE)
 #'
 #' # ...or all sequences within a fasta file
 #'
@@ -34,7 +34,7 @@
 #'                                                subject = EV_sequences,
 #'                                                subject_index = x,
 #'                                                max.mismatch = 1,
-#'                                                with.indels = TRUE))
+#'                                                with.indels = FALSE))
 #' future::plan("future::sequential")
 #'
 find_matches <- function(pattern, subject, subject_index,
@@ -111,5 +111,25 @@ find_matches <- function(pattern, subject, subject_index,
                   end,
                   matched)
 
-  return(matches)
+  if (with.indels) {
+
+    # calculating mismatches does not work if pattern and match do not have
+    # the same length (e.g. when indels are allowed)
+    matches_extended <-
+      matches
+
+  } else if (!with.indels) {
+
+    mismatches <-
+      tibble::tibble(mismatches_index = c(Biostrings::mismatch(pattern, match_fw, fixed = FALSE),
+                                          Biostrings::mismatch(pattern, Biostrings::reverseComplement(match_rc), fixed = FALSE))) %>%
+      dplyr::mutate("mismatches_n" = lengths(mismatches_index))
+
+    matches_extended <-
+      matches %>%
+      dplyr::bind_cols(mismatches)
+
+  }
+
+  return(matches_extended)
 }
