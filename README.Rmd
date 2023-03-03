@@ -48,6 +48,7 @@ be provided as string. [IUPAC ambiguity codes](https://www.bioinformatics.org/sm
 are supported (e.g. "R" matches "A" and "G"). "I" are not supported, replace them with "N" instead.  
 
 The template sequence(s) can be provided in form of a fasta or fastq file.
+Ns in the template count as mismatch but all other ambiguity codes not.
 
 ```{r example-pattern-subject}
 EV_fwd <- "GCTGCGYTGGCGGCC"

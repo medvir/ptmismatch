@@ -39,7 +39,8 @@ codes](https://www.bioinformatics.org/sms/iupac.html) are supported
 “N” instead.
 
 The template sequence(s) can be provided in form of a fasta or fastq
-file.
+file. Ns in the template count as mismatch but all other ambiguity codes
+not.
 
 ``` r
 EV_fwd <- "GCTGCGYTGGCGGCC"

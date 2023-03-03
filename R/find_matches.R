@@ -43,16 +43,16 @@ find_matches <- function(pattern, subject, subject_index,
   pattern <- toupper(pattern)
   pattern_dna <- Biostrings::DNAString(pattern)
 
-  # pad subject sequence with dashes so there's no error subsetting matches
-  # which overlap the beginning or end
+  # pad subject sequence with a junk letter ("+") so there's no error
+  # subsetting matches which overlap the beginning or end
   subject_paded <-
-    Biostrings::xscat(stringr::str_dup("-", max.mismatch),
+    Biostrings::xscat(stringr::str_dup("+", max.mismatch),
                       subject[[subject_index]],
-                      stringr::str_dup("-", max.mismatch)) %>%
-    # replace Ns inside the sequence with dashes so they
+                      stringr::str_dup("+", max.mismatch)) %>%
+    # replace Ns inside the sequence with a junk letter ("+") so they
     # wouldn't match our pattern
     # this is especially an issue with long stretches of Ns
-    Biostrings::chartr(old = "N", new = "-")
+    Biostrings::chartr(old = "N", new = "+")
 
   # get the sequence ID
   # (everything up until the first whitespace of the sequence name)
@@ -91,6 +91,8 @@ find_matches <- function(pattern, subject, subject_index,
     paste(toString(match_fw),
           toString(Biostrings::reverseComplement(match_rc)),
           sep = " ") %>%
+    # revert junk letters back to Ns
+    stringr::str_replace_all("\\+", "N") %>%
     # in case there's no match on either forward or reverse complement strand,
     # remove the added whitespaces introduced in the previous line
     trimws("both") %>%
