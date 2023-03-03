@@ -40,6 +40,9 @@
 find_matches <- function(pattern, subject, subject_index,
                          max.mismatch, with.indels = TRUE) {
 
+  pattern <- toupper(pattern)
+  pattern_dna <- Biostrings::DNAString(pattern)
+
   # pad subject sequence with dashes so there's no error subsetting matches
   # which overlap the beginning or end
   subject_paded <-
@@ -57,15 +60,18 @@ find_matches <- function(pattern, subject, subject_index,
 
   # find matches on both strands of the subject
   match_fw <-
-    Biostrings::matchPattern(pattern,
+    Biostrings::matchPattern(pattern_dna,
                              subject_paded,
                              max.mismatch,
                              with.indels = with.indels,
                              fixed = FALSE)
 
+  # search the minus strand of the subject
+  # follow the documentation here:
+  # https://rdrr.io/bioc/Biostrings/man/reverseComplement.html
   match_rc <-
-    Biostrings::matchPattern(pattern,
-                             Biostrings::reverseComplement(subject_paded),
+    Biostrings::matchPattern(Biostrings::reverseComplement(pattern_dna),
+                             subject_paded,
                              max.mismatch,
                              with.indels = with.indels,
                              fixed = FALSE)
@@ -82,7 +88,9 @@ find_matches <- function(pattern, subject, subject_index,
 
   # create tibble containing all information which are returned
   matches <-
-    paste(toString(match_fw), toString(match_rc), sep = " ") %>%
+    paste(toString(match_fw),
+          toString(Biostrings::reverseComplement(match_rc)),
+          sep = " ") %>%
     # in case there's no match on either forward or reverse complement strand,
     # remove the added whitespaces introduced in the previous line
     trimws("both") %>%
