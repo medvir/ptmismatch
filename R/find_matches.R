@@ -78,8 +78,8 @@ find_matches <- function(pattern, subject, subject_index,
 
   # create tibble combining the ranges of all matches found
   match_ranges <-
-    tibble::tibble(start = c(match_fw@ranges@start,
-                             match_rc@ranges@start),
+    tibble::tibble(start = c(match_fw@ranges@start-max.mismatch,
+                             match_rc@ranges@start-max.mismatch),
                    width = c(match_fw@ranges@width,
                              match_rc@ranges@width)) %>%
     dplyr::mutate(end = start + width - 1) %>%
