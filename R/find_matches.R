@@ -55,8 +55,8 @@ find_matches <- function(pattern, subject, subject_index,
     Biostrings::chartr(old = "N", new = "+")
 
   # get the sequence ID
-  # (everything up until the first whitespace of the sequence name)
-  seqID <- strsplit(subject@ranges@NAMES[[subject_index]], " ")[[1]][1]
+  # (everything up until the first whitespace or pipe of the sequence name)
+  seqID <- strsplit(subject@ranges@NAMES[[subject_index]], " |\\|")[[1]][1]
 
   # find matches on both strands of the subject
   match_fw <-
